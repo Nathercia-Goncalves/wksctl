@@ -1,6 +1,7 @@
 package view
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -93,7 +94,7 @@ func displayPlan(clusterManifestPath, machinesManifestPath string) error {
 		return errors.Wrap(err, "failed to create SSH client: ")
 	}
 	defer sshClient.Close()
-	installer, err := capeios.Identify(sshClient)
+	installer, err := capeios.Identify(context.TODO(), sshClient)
 	if err != nil {
 		return errors.Wrapf(err, "failed to identify operating system for seed node (%s)", sp.GetMasterPublicAddress())
 	}

@@ -2,6 +2,7 @@ package apply
 
 import (
 	"bytes"
+	"context"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -127,7 +128,7 @@ func (a *Applier) initiateCluster(clusterManifestPath, machinesManifestPath stri
 		return errors.Wrap(err, "failed to create SSH client")
 	}
 	defer sshClient.Close()
-	installer, err := capeios.Identify(sshClient)
+	installer, err := capeios.Identify(context.TODO(), sshClient)
 	if err != nil {
 		return errors.Wrapf(err, "failed to identify operating system for seed node (%s)", sp.GetMasterPublicAddress())
 	}

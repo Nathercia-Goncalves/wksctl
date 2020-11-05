@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/pkg/errors"
@@ -9,7 +10,7 @@ import (
 )
 
 func removeFile(remotePath string, runner plan.Runner) error {
-	if stdouterr, err := runner.RunCommand(fmt.Sprintf("rm -f %q", remotePath), nil); err != nil {
+	if stdouterr, err := runner.RunCommand(context.TODO(), fmt.Sprintf("rm -f %q", remotePath), nil); err != nil {
 		log.WithField("stdouterr", stdouterr).WithField("path", remotePath).Debugf("failed to delete file")
 		return errors.Wrapf(err, "failed to delete %q", remotePath)
 	}

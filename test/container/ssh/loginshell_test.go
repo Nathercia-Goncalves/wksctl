@@ -1,6 +1,7 @@
 package ssh
 
 import (
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,13 +15,13 @@ func TestNotLoginShell(t *testing.T) {
 	r, closer := NewRunnerForTest(t, images.CentOS7)
 	defer closer()
 
-	gotOutSetup, err := r.RunCommand("echo 'this text should not appear in the output' > /etc/nologin", nil)
+	gotOutSetup, err := r.RunCommand(context.TODO(), "echo 'this text should not appear in the output' > /etc/nologin", nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "", gotOutSetup)
 
 	client := testutils.ConnectSSH(t, r.Runner.(*testutils.FootlooseRunner))
 
-	gotOutHello, err := client.RunCommand("echo hello", nil)
+	gotOutHello, err := client.RunCommand(context.TODO(), "echo hello", nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "hello\n", gotOutHello)
 }
